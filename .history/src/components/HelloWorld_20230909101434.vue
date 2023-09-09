@@ -33,7 +33,9 @@
 </template>
 
 <script>
-//import { ref } from 'vue';
+import { ref } from 'vue';
+
+const product = ref(null);
 
 export default {
   name: 'HelloWorld',
@@ -41,6 +43,7 @@ export default {
     msg: String
   },
   setup(){
+    const callsign = ref();
   },
   methods:{
     say(message) {
@@ -48,9 +51,8 @@ export default {
       console.log(this.callsign);
       fetch('https://testapi.jasonwatmore.com/products/1')
       .then(response => response.json())
-      .then(data => {
-        console.log(data);
-      })
+      .then(data => product.value = data);
+      console.log(product);
     }
   }
 }

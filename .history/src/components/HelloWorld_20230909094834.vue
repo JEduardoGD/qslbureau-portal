@@ -12,8 +12,8 @@
           <div class="col">
             <form>
               <div class="form-group">
-                <label for="exallsignInput">Indicativo {{ callsign }}</label>
-                <input v-model="callsign" type="input" class="form-control" id="exallsignInput" placeholder="indicativo">
+                <label for="exallsignInput">Indicativo</label>
+                <input type="text" class="form-control" id="exallsignInput" aria-describedby="emailHelp" placeholder="indicativo">
                 <!--small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small-->
               </div>
               <div class="form-group">
@@ -33,24 +33,18 @@
 </template>
 
 <script>
-//import { ref } from 'vue';
-
+const product = ref(null);
 export default {
   name: 'HelloWorld',
   props: {
     msg: String
   },
-  setup(){
-  },
   methods:{
     say(message) {
       console.log(message);
-      console.log(this.callsign);
       fetch('https://testapi.jasonwatmore.com/products/1')
       .then(response => response.json())
-      .then(data => {
-        console.log(data);
-      })
+      .then(data => product.value = data);
     }
   }
 }

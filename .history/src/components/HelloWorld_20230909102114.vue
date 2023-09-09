@@ -33,7 +33,9 @@
 </template>
 
 <script>
-//import { ref } from 'vue';
+import { ref } from 'vue';
+
+const product = ref(null);
 
 export default {
   name: 'HelloWorld',
@@ -49,8 +51,9 @@ export default {
       fetch('https://testapi.jasonwatmore.com/products/1')
       .then(response => response.json())
       .then(data => {
-        console.log(data);
-      })
+        this.product = data;
+      });
+      console.log(this.product);
     }
   }
 }

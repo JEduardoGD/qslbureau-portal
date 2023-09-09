@@ -49,7 +49,6 @@ export default {
       fetch('https://testapi.jasonwatmore.com/products/1')
       .then(response => response.json())
       .then(data => {
-        console.log(data);
       })
     }
   }

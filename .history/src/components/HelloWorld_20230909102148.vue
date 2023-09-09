@@ -33,8 +33,6 @@
 </template>
 
 <script>
-//import { ref } from 'vue';
-
 export default {
   name: 'HelloWorld',
   props: {
@@ -49,8 +47,9 @@ export default {
       fetch('https://testapi.jasonwatmore.com/products/1')
       .then(response => response.json())
       .then(data => {
-        console.log(data);
-      })
+        product = data;
+      });
+      console.log(this.product);
     }
   }
 }

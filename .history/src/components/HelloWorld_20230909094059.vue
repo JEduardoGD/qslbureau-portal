@@ -12,12 +12,12 @@
           <div class="col">
             <form>
               <div class="form-group">
-                <label for="exallsignInput">Indicativo {{ callsign }}</label>
-                <input v-model="callsign" type="input" class="form-control" id="exallsignInput" placeholder="indicativo">
+                <label for="exallsignInput">Indicativo</label>
+                <input type="text" class="form-control" id="exallsignInput" aria-describedby="emailHelp" placeholder="indicativo">
                 <!--small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small-->
               </div>
               <div class="form-group">
-                <button type="button" class="btn btn-primary" @click="say('hello')">manatyy</button>
+                <button type="button" class="btn btn-primary" @click="manaty">Save</button>
               </div>
               <div class="form-check">
               </div>
@@ -33,24 +33,48 @@
 </template>
 
 <script>
-//import { ref } from 'vue';
-
 export default {
   name: 'HelloWorld',
   props: {
     msg: String
   },
-  setup(){
-  },
-  methods:{
-    say(message) {
-      console.log(message);
-      console.log(this.callsign);
-      fetch('https://testapi.jasonwatmore.com/products/1')
-      .then(response => response.json())
-      .then(data => {
-        console.log(data);
-      })
+  methods : {
+    manaty(){
+      console.log('manaty');
+      return fetch('http://jsonplaceholder.typicode.com/posts', {
+    method: 'get',
+    headers: {
+      'content-type': 'application/json'
+    }
+  })
+    .then(res => {
+      // a non-200 response code
+      if (!res.ok) {
+        // create error instance with HTTP status text
+        const error = new Error(res.statusText);
+        error.json = res.json();
+        throw error;
+      }
+
+      return res.json();
+    })
+    .then(json => {
+      // set the response data
+      data.value = json.data;
+    })
+    .catch(err => {
+      error.value = err;
+      // In case a custom JSON error response was provided
+      if (err.json) {
+        return err.json.then(json => {
+          // set the JSON response message
+          error.value.message = json.message;
+        });
+      }
+    })
+    .then(() => {
+      loading.value = false;
+    });
     }
   }
 }
