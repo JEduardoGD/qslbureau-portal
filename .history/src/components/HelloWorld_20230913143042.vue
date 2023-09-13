@@ -34,7 +34,8 @@
 <script>
 const apiUrl = process.env.VUE_APP_API_URL;
 
-import Swal from 'sweetalert2'
+import VueSweetalert2 from 'vue-sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
 
 export default {
   name: 'HelloWorld',
@@ -48,7 +49,6 @@ export default {
       fetch(`${apiUrl}/qslsfor/${this.callsign}`)
       .then(response => response.json())
       .then(data => {
-        Swal.fire('Something went wrong.')
         console.log(data);
       })
     }

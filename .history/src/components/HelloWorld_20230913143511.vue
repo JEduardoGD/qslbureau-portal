@@ -33,6 +33,7 @@
 
 <script>
 const apiUrl = process.env.VUE_APP_API_URL;
+import { inject } from 'vue'
 
 import Swal from 'sweetalert2'
 

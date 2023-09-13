@@ -33,8 +33,7 @@
 
 <script>
 const apiUrl = process.env.VUE_APP_API_URL;
-
-import Swal from 'sweetalert2'
+import { inject } from 'vue'
 
 export default {
   name: 'HelloWorld',
@@ -42,13 +41,14 @@ export default {
     msg: String
   },
   setup(){
+    const swal = inject('$swal')
   },
   methods:{
     say() {
       fetch(`${apiUrl}/qslsfor/${this.callsign}`)
       .then(response => response.json())
       .then(data => {
-        Swal.fire('Something went wrong.')
+        this.swal('Something went wrong.')
         console.log(data);
       })
     }
