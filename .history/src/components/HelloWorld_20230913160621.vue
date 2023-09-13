@@ -72,7 +72,7 @@ export default {
             `<tr><td>Indicativo</td><td> ${obj.callsign}</td>` +
             `<tr><td>QSLs encontradas</td><td> ${obj.count}</td>` +
             `</tr><tr><td>QSL mas antigua capturada</td><td>${obj.oldest}</td></tr>` +
-            `</tr><tr><td>QSL mas reciente capturada</td><td>${obj.newest}</td></tr>` +
+            `</tr><tr><td>QSL mas reciente</td><td>${obj.newest}</td></tr>` +
             '</tbody></table>',
         })
       })

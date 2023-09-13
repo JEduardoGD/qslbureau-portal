@@ -68,12 +68,8 @@ export default {
         console.log('----------------------');
         Swal.fire({
           icon: 'success',
-          html: '<table class="table"><tbody>' +
-            `<tr><td>Indicativo</td><td> ${obj.callsign}</td>` +
-            `<tr><td>QSLs encontradas</td><td> ${obj.count}</td>` +
-            `</tr><tr><td>QSL mas antigua capturada</td><td>${obj.oldest}</td></tr>` +
-            `</tr><tr><td>QSL mas reciente capturada</td><td>${obj.newest}</td></tr>` +
-            '</tbody></table>',
+          html: `<table class="table"><tbody><tr><td>QSLs encontradas</td><td> ${obj.count}</td></tr><tr><td>y</td><td>x</td></tr></tbody></table>`,
+          text: `Econtramos ${obj.count} qsls para tu indicativo!`
         })
       })
     }

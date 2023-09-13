@@ -26,12 +26,12 @@
           <table class="table">
             <tbody>
               <tr>
-                <td>qsls encontradas</td>
-                <td>rr {{ labell }} aa</td>
+                <td>qsls en poder de la FMRE</td>
+                <td>{{ this.qslsEncontradas }}</td>
               </tr>
               <tr>
-                <td>y</td>
-                <td>x</td>
+                <td>Jacob</td>
+                <td>Thornton</td>
               </tr>
             </tbody>
           </table>
@@ -45,8 +45,6 @@
 const apiUrl = process.env.VUE_APP_API_URL;
 
 import Swal from 'sweetalert2'
-import { ref } from 'vue';
-let labell = ref(0);
 
 export default {
   name: 'HelloWorld',
@@ -62,18 +60,9 @@ export default {
       .then(data => {
         let str = data.jsonPayload;
         let obj = JSON.parse(str);
-        labell = obj.count;
-        console.log('----------------------');
-        console.log(labell);
-        console.log('----------------------');
         Swal.fire({
           icon: 'success',
-          html: '<table class="table"><tbody>' +
-            `<tr><td>Indicativo</td><td> ${obj.callsign}</td>` +
-            `<tr><td>QSLs encontradas</td><td> ${obj.count}</td>` +
-            `</tr><tr><td>QSL mas antigua capturada</td><td>${obj.oldest}</td></tr>` +
-            `</tr><tr><td>QSL mas reciente capturada</td><td>${obj.newest}</td></tr>` +
-            '</tbody></table>',
+          text: `Econtramos ${obj.count} qsls para tu indicativo!`
         })
       })
     }
