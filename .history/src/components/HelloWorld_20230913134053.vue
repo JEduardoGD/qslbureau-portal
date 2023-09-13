@@ -14,6 +14,7 @@
               <div class="form-group">
                 <label for="exallsignInput">Indicativo {{ callsign }}</label>
                 <input v-model="callsign" type="input" class="form-control" id="exallsignInput" placeholder="indicativo">
+                <!--small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small-->
               </div>
               <div class="form-group">
                 <button type="button" class="btn btn-primary" @click="say()">manatyy</button>
@@ -43,6 +44,9 @@ export default {
   },
   methods:{
     say() {
+      console.log('--------------------')
+      console.log(apiUrl);
+      console.log('--------------------')
       fetch(`${apiUrl}/qslsfor/${this.callsign}`)
       .then(response => response.json())
       .then(data => {
