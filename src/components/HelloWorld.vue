@@ -8,32 +8,33 @@
       <div class="container">
         <div class="row">
           <div class="col">
-          </div>
-          <div class="col">
             <form>
               <div class="form-group">
                 <label for="exallsignInput">Indicativo {{ callsign }}</label>
                 <input v-model="callsign" type="input" class="form-control" id="exallsignInput" placeholder="indicativo">
-                <!--small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small-->
               </div>
               <div class="form-group">
-                <button type="button" class="btn btn-primary" @click="say('hello')">manatyy</button>
+                <button type="button" class="btn btn-primary" @click="say()">Buscar QSL's</button>
               </div>
-              <div class="form-check">
-              </div>
-              <button type="submit" class="btn btn-primary">Submit</button>
             </form>
           </div>
-          <div class="col">
-          </div>
         </div>
+      </div>
+      <div class="container">
+        <p class="text">En caso de haber encontrado QSL's y quieres recuperarlas recuerda que el procedimieto se encuentra normado por el <a href="https://fmre.mx/actividades" target="_blank">Reglamento del QSL Bureau.</a></p>
+        <p>Si quieres ponerte en contacto siempre puedes enviar un correo con tus comentarios a qslbureau @fmre.mx donde con gusto te atenderemos.</p>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-//import { ref } from 'vue';
+import moment from 'moment'
+require('moment/locale/es')
+
+const apiUrl = process.env.VUE_APP_API_URL;
+
+import Swal from 'sweetalert2'
 
 export default {
   name: 'HelloWorld',
@@ -43,14 +44,48 @@ export default {
   setup(){
   },
   methods:{
-    say(message) {
-      console.log(message);
-      console.log(this.callsign);
-      fetch('https://testapi.jasonwatmore.com/products/1')
-      .then(response => response.json())
-      .then(data => {
-        console.log(data);
-      })
+    say() {
+      if(this.callsign == undefined || this.callsign === ''){
+          Swal.fire({
+            icon: 'error',
+            title: 'Requerido',
+            text:  'El indicativo es requerido'
+          })
+      } else {
+        fetch(`${apiUrl}/qslsfor/${this.callsign}`)
+        .then(response => response.json())
+        .then(data => {
+          let str = data.jsonPayload;
+          let obj = JSON.parse(str);
+
+          if(obj.count > 0){
+            Swal.fire({
+              icon: 'success',
+              html: '<table class="table"><tbody>' +
+                `<tr><td>Indicativo</td><td> ${ obj.callsign }</td>` +
+                `<tr><td>QSLs encontradas</td><td> ${ obj.count }</td>` +
+                `</tr><tr><td>QSL mas antigua registrada</td><td>${ moment(obj.oldest).format("DD MMM YYYY h:mm") }</td></tr>` +
+                `</tr><tr><td>QSL mas reciente registrada</td><td>${ moment(obj.newest).format("DD MMM YYYY h:mm") }</td></tr>` +
+                '</tbody></table>',
+              })
+          }
+          if(obj.count === 0){
+            Swal.fire({
+              icon: 'warning',
+              title: 'No encontrado',
+              text:  `No se encontraron qsls para el indicativo ${ obj.callsign }`
+            })
+          }
+        })
+        .catch(function(err) {
+          console.log('Fetch Error :-S', err);
+          Swal.fire({
+            icon: 'error',
+            title: 'No disponible',
+            text:  'Por el momento el servicio no esta disponible'
+          })
+        });
+      }
     }
   }
 }
