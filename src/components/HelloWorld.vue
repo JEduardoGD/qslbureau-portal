@@ -14,7 +14,11 @@
                 <input v-model="callsign" type="input" class="form-control" id="exallsignInput" placeholder="indicativo">
               </div>
               <div class="form-group">
-                <button type="button" class="btn btn-primary" @click="say()">Buscar QSL's</button>
+                <button :disabled="askingApi" type="button" class="btn btn-primary" @click="say()">
+                  <span v-if="askingApi" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                  <span v-if="askingApi" class="sr-only">Loading...</span>
+                  Buscar QSL's
+                </button>
               </div>
             </form>
           </div>
@@ -43,6 +47,11 @@ export default {
   },
   setup(){
   },
+  data(){
+    return {
+      askingApi: false
+    }
+  },
   methods:{
     say() {
       if(this.callsign == undefined || this.callsign === ''){
@@ -52,6 +61,7 @@ export default {
             text:  'El indicativo es requerido'
           })
       } else {
+        this.askingApi = true;
         fetch(`${apiUrl}/qslsfor/${this.callsign}`)
         .then(response => response.json())
         .then(data => {
@@ -84,6 +94,10 @@ export default {
             title: 'No disponible',
             text:  'Por el momento el servicio no esta disponible'
           })
+        })
+        .finally(() => {
+          console.log('runnning finally')
+          this.askingApi = false;
         });
       }
     }
