@@ -45,7 +45,7 @@ export default {
   },
   methods:{
     say() {
-      if(this.callsign == undefined || this.callsign === ''){
+      if(this.callsign == undefined){
           Swal.fire({
             icon: 'error',
             title: 'Requerido',
@@ -79,11 +79,6 @@ export default {
         })
         .catch(function(err) {
           console.log('Fetch Error :-S', err);
-          Swal.fire({
-            icon: 'error',
-            title: 'No disponible',
-            text:  'Por el momento el servicio no esta disponible'
-          })
         });
       }
     }

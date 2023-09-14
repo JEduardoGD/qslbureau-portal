@@ -45,47 +45,31 @@ export default {
   },
   methods:{
     say() {
-      if(this.callsign == undefined || this.callsign === ''){
-          Swal.fire({
-            icon: 'error',
-            title: 'Requerido',
-            text:  'El indicativo es requerido'
-          })
-      } else {
-        fetch(`${apiUrl}/qslsfor/${this.callsign}`)
-        .then(response => response.json())
-        .then(data => {
-          let str = data.jsonPayload;
-          let obj = JSON.parse(str);
+      fetch(`${apiUrl}/qslsfor/${this.callsign}`)
+      .then(response => response.json())
+      .then(data => {
+        let str = data.jsonPayload;
+        let obj = JSON.parse(str);
 
-          if(obj.count > 0){
-            Swal.fire({
-              icon: 'success',
-              html: '<table class="table"><tbody>' +
-                `<tr><td>Indicativo</td><td> ${ obj.callsign }</td>` +
-                `<tr><td>QSLs encontradas</td><td> ${ obj.count }</td>` +
-                `</tr><tr><td>QSL mas antigua registrada</td><td>${ moment(obj.oldest).format("DD MMM YYYY h:mm") }</td></tr>` +
-                `</tr><tr><td>QSL mas reciente registrada</td><td>${ moment(obj.newest).format("DD MMM YYYY h:mm") }</td></tr>` +
-                '</tbody></table>',
-              })
-          }
-          if(obj.count === 0){
-            Swal.fire({
-              icon: 'warning',
-              title: 'No encontrado',
-              text:  `No se encontraron qsls para el indicativo ${ obj.callsign }`
-            })
-          }
-        })
-        .catch(function(err) {
-          console.log('Fetch Error :-S', err);
+        if(obj.count > 0){
           Swal.fire({
-            icon: 'error',
-            title: 'No disponible',
-            text:  'Por el momento el servicio no esta disponible'
+            icon: 'success',
+            html: '<table class="table"><tbody>' +
+              `<tr><td>Indicativo</td><td> ${ obj.callsign }</td>` +
+              `<tr><td>QSLs encontradas</td><td> ${ obj.count }</td>` +
+              `</tr><tr><td>QSL mas antigua registrada</td><td>${ moment(obj.oldest).format("DD MMM YYYY h:mm") }</td></tr>` +
+              `</tr><tr><td>QSL mas reciente registrada</td><td>${ moment(obj.newest).format("DD MMM YYYY h:mm") }</td></tr>` +
+              '</tbody></table>',
+            })
+        }
+        if(obj.count === 0){
+          Swal.fire({
+            icon: 'warning',
+            title: 'No encontrado',
+            text:  `No se encontraron qsls para el indicativo ${ obj.callsign }`
           })
-        });
-      }
+        }
+      })
     }
   }
 }

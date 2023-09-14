@@ -45,7 +45,7 @@ export default {
   },
   methods:{
     say() {
-      if(this.callsign == undefined || this.callsign === ''){
+      if(this.callsign == undefined){
           Swal.fire({
             icon: 'error',
             title: 'Requerido',
