@@ -4,20 +4,20 @@
       <h1>{{ msg }}</h1>
       <label>
       </label>
-      <p>Ingresa el indicativo del cual te interesa conocer si tiene tarjetas qsl bajo el resguardo del buro</p>
+      <p>Ingresa el indicativo del cual te interesa conocer si el buro tiene tarjetas qsl bajo resguardo.</p>
       <div class="container">
         <div class="row">
           <div class="col">
-            <form>
+            <form action="#">
               <div class="form-group">
                 <label for="exallsignInput">Indicativo {{ callsign }}</label>
-                <input v-model="callsign" type="input" class="form-control" id="exallsignInput" placeholder="indicativo">
+                <input ref="name" v-on:keyup.enter="onEnter" v-model="callsign" type="input" class="form-control" id="exallsignInput" placeholder="indicativo">
               </div>
               <div class="form-group">
                 <button :disabled="askingApi" type="button" class="btn btn-primary" @click="say()">
                   <span v-if="askingApi" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                   <span v-if="askingApi" class="sr-only">Loading...</span>
-                  Buscar QSL's
+                  Buscar tarjetas qsl
                 </button>
               </div>
             </form>
@@ -25,8 +25,8 @@
         </div>
       </div>
       <div class="container">
-        <p class="text">En caso de haber encontrado QSL's y quieres recuperarlas recuerda que el procedimieto se encuentra normado por el <a href="https://fmre.mx/actividades" target="_blank">Reglamento del QSL Bureau.</a></p>
-        <p>Si quieres ponerte en contacto siempre puedes enviar un correo con tus comentarios a qslbureau @fmre.mx donde con gusto te atenderemos.</p>
+        <p class="text">En caso de haber encontrado tarjetas qsl y quieres recuperarlas recuerda que el procedimieto se encuentra normado por el <a href="https://fmre.mx/actividades" target="_blank">Reglamento del QSL Bureau.</a></p>
+        <p>Si quieres ponerte en contacto siempre puedes enviar un correo con tus comentarios a qslbureau@fmre.mx donde con gusto te atenderemos.</p>
       </div>
     </div>
   </div>
@@ -47,12 +47,21 @@ export default {
   },
   setup(){
   },
+  mounted() {
+    this.focusInput();
+  },
   data(){
     return {
       askingApi: false
     }
   },
   methods:{
+    focusInput() {
+      this.$refs.name.focus();
+    },
+    onEnter: function() {
+       this.say();
+    },
     say() {
       if(this.callsign == undefined || this.callsign === ''){
           Swal.fire({
@@ -83,7 +92,7 @@ export default {
             Swal.fire({
               icon: 'warning',
               title: 'No encontrado',
-              text:  `No se encontraron qsls para el indicativo ${ obj.callsign }`
+              text:  `No se encontraron QSL para el indicativo ${ obj.callsign }`
             })
           }
         })
