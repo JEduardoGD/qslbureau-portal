@@ -10,7 +10,7 @@
           <div class="col">
             <form action="#">
               <div class="form-group">
-                <label for="exallsignInput">Indicativo {{ callsign }}</label>
+                <label for="exallsignInput">Indicativo:</label>
                 <input ref="name" v-on:keyup.enter="onEnter" v-model="callsign" type="input" class="form-control" id="exallsignInput" placeholder="indicativo">
               </div>
               <div class="form-group">
