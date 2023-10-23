@@ -3,6 +3,7 @@
     <div class="hello">
       <h1>{{ msg }}</h1>
       <label>
+        <VueSpinner size="100" color="red" />
       </label>
       <p>Ingresa el indicativo del cual te interesa conocer si el buro tiene tarjetas qsl bajo resguardo.</p>
       <div class="container">
