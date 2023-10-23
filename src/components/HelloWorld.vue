@@ -46,6 +46,12 @@ export default {
     msg: String
   },
   setup(){
+    console.log('setup...')
+    const params = (new URL(document.location)).searchParams;
+    if(params?.get('confirm') != undefined && params?.get('confirm') != '') {
+      console.log('not null')
+      console.log(params?.get('confirm'))
+    }
   },
   mounted() {
     this.focusInput();
